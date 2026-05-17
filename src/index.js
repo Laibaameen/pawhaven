@@ -1,4 +1,6 @@
 import React from 'react';
+import { injectSpeedInsights } from '@vercel/speed-insights';
+injectSpeedInsights();
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
