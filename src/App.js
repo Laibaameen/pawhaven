@@ -29,7 +29,6 @@ const globalStyle = `
   .dot-bounce:nth-child(3){animation-delay:.4s;}
   .mobile-menu-open{animation:slideDown .3s ease both;}
  
-  /* ── Responsive grid helpers ── */
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
   .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
@@ -98,13 +97,10 @@ function Navbar({page,setPage}){
       boxShadow:scrolled?'0 4px 24px rgba(0,0,0,.35)':'none',
       transition:'all .3s'}}>
       <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px',display:'flex',justifyContent:'space-between',alignItems:'center',height:64}}>
-        {/* Logo */}
         <button onClick={()=>navigate('home')} style={{background:'none',border:'none',cursor:'pointer',
           fontFamily:"'Playfair Display',serif",fontSize:'1.5rem',color:G.tan,fontWeight:700,flexShrink:0}}>
           🐾 Paw<span style={{color:G.orangeLt}}>Haven</span>
         </button>
- 
-        {/* Desktop nav */}
         <div className="hide-mobile" style={{display:'flex',gap:4,flexWrap:'wrap'}}>
           {PAGES.map(p=>(
             <button key={p} onClick={()=>navigate(p)}
@@ -116,8 +112,6 @@ function Navbar({page,setPage}){
             </button>
           ))}
         </div>
- 
-        {/* Mobile hamburger */}
         <button
           onClick={()=>setMenuOpen(!menuOpen)}
           style={{display:'none',background:'none',border:'none',cursor:'pointer',
@@ -127,8 +121,6 @@ function Navbar({page,setPage}){
           {menuOpen?'✕':'☰'}
         </button>
       </div>
- 
-      {/* Mobile dropdown menu */}
       {menuOpen&&(
         <div className="mobile-menu-open" style={{background:G.dark,borderTop:'1px solid rgba(255,255,255,.08)',padding:'12px 20px 20px'}}>
           {PAGES.map(p=>(
@@ -144,7 +136,6 @@ function Navbar({page,setPage}){
           ))}
         </div>
       )}
- 
       <style>{`
         @media(max-width:768px){
           .hamburger-btn{display:block!important;}
@@ -184,7 +175,6 @@ function HomePage({setPage}){
   ];
   return(
     <div>
-      {/* Hero */}
       <section style={{minHeight:'100vh',background:'linear-gradient(135deg,#1a0e06 0%,#3d1f08 40%,#5C3317 70%,#E8621A 100%)',display:'flex',alignItems:'center',position:'relative',overflow:'hidden'}}>
         {['12rem','8rem','6rem'].map((s,i)=>(
           <div key={i} style={{position:'absolute',fontSize:s,opacity:.04,
@@ -193,7 +183,6 @@ function HomePage({setPage}){
         ))}
         <div style={{maxWidth:1200,margin:'0 auto',padding:'80px 20px 60px',width:'100%'}}>
           <div className="hero-grid">
-            {/* Left text */}
             <div className="fade-in">
               <div style={{display:'inline-flex',alignItems:'center',gap:8,
                 background:'rgba(232,98,26,.2)',border:'1px solid rgba(232,98,26,.4)',
@@ -226,7 +215,6 @@ function HomePage({setPage}){
                 ))}
               </div>
             </div>
-            {/* Right images — hidden on mobile */}
             <div className="hero-images" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,position:'relative'}}>
               {[
                 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=300&fit=crop',
@@ -251,7 +239,6 @@ function HomePage({setPage}){
         </div>
       </section>
  
-      {/* What We Do */}
       <section style={{padding:'80px 20px',background:G.cream}}>
         <div style={{maxWidth:1200,margin:'0 auto'}}>
           <div style={{textAlign:'center',marginBottom:52}}>
@@ -280,7 +267,6 @@ function HomePage({setPage}){
         </div>
       </section>
  
-      {/* CTA Banner */}
       <section style={{background:`linear-gradient(135deg,${G.brown},${G.orange})`,padding:'70px 20px',textAlign:'center'}}>
         <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(1.8rem,4vw,2.4rem)',color:'#fff',marginBottom:16}}>
           Spotted an Injured Animal?
@@ -306,10 +292,11 @@ function ReportPage({showToast}){
     const file=e.target.files[0];
     if(file){setForm({...form,photo:file});setPhotoPreview(URL.createObjectURL(file));}
   };
+
   const submit=()=>{
     if(!form.type||!form.location||!form.condition){showToast('Please fill all required fields!','error');return;}
     setSubmitted(true);
-    showToast('🚨 Report submitted! Our team is on the way.');
+    showToast('🚨 Report submitted successfully! Our team is on the way.');
   };
  
   if(submitted) return(
@@ -337,23 +324,13 @@ function ReportPage({showToast}){
   return(
     <div style={{padding:'60px 20px',background:G.cream,minHeight:'100vh'}}>
       <div style={{maxWidth:760,margin:'0 auto'}}>
-        {/* Header banner */}
         <div style={{background:'linear-gradient(135deg,#c0392b,#e74c3c)',borderRadius:20,padding:'28px 24px',marginBottom:32,color:'#fff',textAlign:'center'}}>
           <div style={{fontSize:'2.8rem',marginBottom:8}}>🚨</div>
           <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(1.7rem,4vw,2.2rem)',marginBottom:8}}>Report an Animal</h1>
           <p style={{opacity:.9,fontSize:'1rem'}}>Found an injured, lost, or stray animal? Fill this form — our team responds within 60 minutes.</p>
-          <div style={{marginTop:18,display:'flex',justifyContent:'center',gap:20,flexWrap:'wrap'}}>
-            {[['📍','Location Tracking'],['⚡','60 Min Response'],['📸','Photo Upload']].map(([ic,lb])=>(
-              <div key={lb} style={{textAlign:'center'}}>
-                <div style={{fontSize:'1.5rem'}}>{ic}</div>
-                <div style={{fontSize:'0.78rem',opacity:.8}}>{lb}</div>
-              </div>
-            ))}
-          </div>
         </div>
  
         <div style={{background:'#fff',borderRadius:20,padding:'28px 24px',boxShadow:'0 4px 24px rgba(92,51,23,.1)'}}>
-          {/* Animal type + condition */}
           <div className="grid-2" style={{marginBottom:20}}>
             <div>
               <label style={lbl}>Animal Type *</label>
@@ -376,22 +353,12 @@ function ReportPage({showToast}){
             </div>
           </div>
  
-          {/* Location */}
           <div style={{marginBottom:20}}>
             <label style={lbl}>Location / Address *</label>
             <input type="text" value={form.location} onChange={e=>setForm({...form,location:e.target.value})}
-              placeholder="e.g. Near Anarkali Bazaar, Lahore or GPS coordinates" style={inp}/>
-            <div style={{marginTop:8,display:'flex',gap:8,flexWrap:'wrap'}}>
-              {['DHA Lahore','Gulberg','Model Town','Johar Town'].map(loc=>(
-                <button key={loc} onClick={()=>setForm({...form,location:loc})}
-                  style={{background:'#f5e8d0',color:G.brown,border:'none',padding:'5px 12px',borderRadius:50,fontSize:'0.78rem',fontWeight:700,cursor:'pointer'}}>
-                  📍 {loc}
-                </button>
-              ))}
-            </div>
+              placeholder="e.g. Near Anarkali Bazaar, Lahore" style={inp}/>
           </div>
  
-          {/* Photo upload */}
           <div style={{marginBottom:20}}>
             <label style={lbl}>Upload Photo</label>
             <label style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
@@ -410,15 +377,13 @@ function ReportPage({showToast}){
             </label>
           </div>
  
-          {/* Notes */}
           <div style={{marginBottom:20}}>
             <label style={lbl}>Additional Notes</label>
             <textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})}
-              rows={3} placeholder="Describe the animal's situation, behavior, surroundings..."
+              rows={3} placeholder="Describe the animal's situation..."
               style={{...inp,resize:'none'}}/>
           </div>
  
-          {/* Contact info */}
           <div style={{background:'#f5e8d0',borderRadius:14,padding:20,marginBottom:24}}>
             <div style={{fontWeight:800,color:G.brown,marginBottom:14}}>📞 Your Contact Information</div>
             <div className="grid-2">
@@ -454,44 +419,34 @@ function ReportPage({showToast}){
 const PETS=[
   {id:1,name:'Buddy',type:'dog',breed:'Golden Retriever Mix',age:'2 yrs',gender:'Male',status:'Available',
    tags:['Playful','Kid-Friendly','Vaccinated'],
-   desc:'Buddy is a joyful, energetic Golden Retriever mix who loves fetch, cuddles, and making new friends. He is great with children and other pets.',
+   desc:'Buddy is a joyful, energetic Golden Retriever mix who loves fetch, cuddles, and making new friends.',
    weight:'28 kg',color:'Golden Brown',vaccinated:true,neutered:false,
-   imgs:['https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1552053831-71594a27632d?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=700&h=450&fit=crop']},
+   imgs:['https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1552053831-71594a27632d?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=700&h=450&fit=crop']},
   {id:2,name:'Luna',type:'cat',breed:'Tabby Cat',age:'1 yr',gender:'Female',status:'Available',
    tags:['Calm','Indoor','Neutered'],
-   desc:'Luna is a sweet and gentle tabby who loves sunny spots, slow mornings, and quiet homes. She bonds deeply with her owner once comfortable.',
+   desc:'Luna is a sweet and gentle tabby who loves sunny spots and quiet homes.',
    weight:'3.5 kg',color:'Black & White',vaccinated:true,neutered:true,
-   imgs:['https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=700&h=450&fit=crop']},
+   imgs:['https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=700&h=450&fit=crop']},
   {id:3,name:'Max',type:'dog',breed:'German Shepherd',age:'3 yrs',gender:'Male',status:'Pending',
    tags:['Energetic','Loyal','Trained'],
-   desc:'Max is a noble, intelligent German Shepherd. He is fully obedience trained and would thrive in an active household with space to run.',
+   desc:'Max is a noble, intelligent German Shepherd. Fully obedience trained.',
    weight:'35 kg',color:'Black & Tan',vaccinated:true,neutered:false,
-   imgs:['https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1617895153857-82fe0c82b767?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1558929996-da64ba858215?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=700&h=450&fit=crop']},
+   imgs:['https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=700&h=450&fit=crop']},
   {id:4,name:'Mochi',type:'cat',breed:'Persian Mix',age:'4 yrs',gender:'Female',status:'Available',
    tags:['Gentle','Quiet','Vaccinated'],
-   desc:'Mochi is a calm and fluffy Persian mix who enjoys being brushed, watching birds, and napping on soft surfaces. Perfect for a quiet home.',
+   desc:'Mochi is a calm and fluffy Persian mix. Perfect for a quiet home.',
    weight:'4 kg',color:'White & Orange',vaccinated:true,neutered:true,
-   imgs:['https://images.unsplash.com/photo-1561948955-570b270e7c36?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=700&h=450&fit=crop']},
+   imgs:['https://images.unsplash.com/photo-1561948955-570b270e7c36?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=700&h=450&fit=crop']},
   {id:5,name:'Coco',type:'other',breed:'Holland Lop Rabbit',age:'1 yr',gender:'Female',status:'Available',
    tags:['Fluffy','Social','Gentle'],
-   desc:'Coco is an adorable Holland Lop rabbit who loves exploring and being around people. Easy to care for and perfect for smaller homes.',
+   desc:'Coco is an adorable Holland Lop rabbit who loves exploring.',
    weight:'2 kg',color:'White & Brown',vaccinated:true,neutered:false,
-   imgs:['https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1589952283406-b53a7d1347e8?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1622193892668-dc1a4ece3fdd?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1548767797-d8c844163c4a?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=700&h=450&fit=crop']},
+   imgs:['https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1589952283406-b53a7d1347e8?w=700&h=450&fit=crop']},
   {id:6,name:'Rocky',type:'dog',breed:'Labrador Mix',age:'4 yrs',gender:'Male',status:'Available',
    tags:['Friendly','Active','Good with Kids'],
-   desc:'Rocky is a happy-go-lucky Labrador mix who thrives on outdoor adventures. He is well-socialized, loves swimming, and is great with families.',
+   desc:'Rocky is a happy-go-lucky Labrador mix who thrives on outdoor adventures.',
    weight:'30 kg',color:'Chocolate Brown',vaccinated:true,neutered:false,
-   imgs:['https://images.unsplash.com/photo-1534361960057-19f4434a56b8?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1517849845537-4d257902454a?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1517331156700-3c241d2b4d83?w=700&h=450&fit=crop']},
-  {id:7,name:'Donut',type:'other',breed:'Grey Donkey',age:'5 yrs',gender:'Male',status:'Available',
-   tags:['Gentle','Calm','Kid-Safe'],
-   desc:'Donut is a lovable grey donkey rescued from a roadside. He is calm, friendly, and responds well to gentle handling. Loves carrots and ear rubs!',
-   weight:'180 kg',color:'Grey',vaccinated:true,neutered:false,
-   imgs:['https://images.unsplash.com/photo-1548815606-2cc77a71b36f?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1563293958-27b0a7f01a19?w=700&h=450&fit=crop']},
-  {id:8,name:'Storm',type:'other',breed:'Brown Horse',age:'6 yrs',gender:'Male',status:'Available',
-   tags:['Majestic','Trained','Strong'],
-   desc:'Storm is a majestic brown horse rescued from neglect. He has been fully rehabilitated and is now calm, well-mannered, and ready for a loving stable.',
-   weight:'500 kg',color:'Dark Brown',vaccinated:true,neutered:false,
-   imgs:['https://images.unsplash.com/photo-1534773728080-33d31da27ae5?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1598974799577-2f2eb3c8e32b?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1504169823686-ba6fb4acf93a?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=700&h=450&fit=crop']},
+   imgs:['https://images.unsplash.com/photo-1534361960057-19f4434a56b8?w=700&h=450&fit=crop','https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=700&h=450&fit=crop']},
 ];
  
 function AnimalDetail({animal,onBack,showToast}){
@@ -502,14 +457,10 @@ function AnimalDetail({animal,onBack,showToast}){
  
   const submit=()=>{
     if(!form.name||!form.email){showToast('Please fill in name and email!','error');return;}
-    const waMsg=`🐾 *New Adoption Application - PawHaven*\n\n🐶 Animal: ${animal.name} (${animal.breed})\n👤 Name: ${form.name}\n📧 Email: ${form.email}\n📞 Phone: ${form.phone||'Not provided'}\n💬 Reason: ${form.reason||'Not specified'}`;
-    sendWhatsApp(waMsg);
-    showToast(`🐾 Application for ${animal.name} submitted! WhatsApp pe details ja rahi hain.`);
+    showToast(`🐾 Application for ${animal.name} submitted successfully!`);
     setShowForm(false);
     setForm({name:'',email:'',phone:'',reason:''});
   };
- 
-  const similar=PETS.filter(p=>p.type===animal.type&&p.id!==animal.id).slice(0,3);
  
   return(
     <div style={{background:G.cream,minHeight:'100vh',padding:'40px 20px'}}>
@@ -520,15 +471,12 @@ function AnimalDetail({animal,onBack,showToast}){
             fontSize:'0.9rem',marginBottom:28,display:'flex',alignItems:'center',gap:8}}>
           ← Back to Animals
         </button>
- 
-        {/* Detail grid */}
         <div className="animal-detail-grid">
-          {/* Images */}
           <div>
             <div style={{borderRadius:20,overflow:'hidden',height:340,marginBottom:12,
               boxShadow:'0 8px 32px rgba(92,51,23,.18)',position:'relative'}}>
               <img src={animal.imgs[activeImg]} alt={animal.name}
-                style={{width:'100%',height:'100%',objectFit:'cover',transition:'opacity .3s'}}/>
+                style={{width:'100%',height:'100%',objectFit:'cover'}}/>
               <div style={{position:'absolute',top:14,right:14,
                 background:animal.status==='Available'?'#d4edda':'#fff3cd',
                 color:animal.status==='Available'?'#155724':'#856404',
@@ -559,8 +507,6 @@ function AnimalDetail({animal,onBack,showToast}){
               ))}
             </div>
           </div>
- 
-          {/* Info */}
           <div>
             <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(2rem,4vw,2.6rem)',color:G.brown,marginBottom:4}}>{animal.name}</h1>
             <p style={{color:'#a07040',fontSize:'1rem',marginBottom:14}}>🐾 {animal.breed} · {animal.age} · {animal.gender}</p>
@@ -570,55 +516,16 @@ function AnimalDetail({animal,onBack,showToast}){
               ))}
             </div>
             <p style={{color:'#5a3e28',fontSize:'0.95rem',lineHeight:1.75,marginBottom:20}}>{animal.desc}</p>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:24}}>
-              {[['⚖️','Weight',animal.weight],['🎨','Color',animal.color],
-                ['💉','Vaccinated',animal.vaccinated?'Yes ✅':'No ❌'],
-                ['✂️','Neutered',animal.neutered?'Yes ✅':'No ❌'],
-                ['🚻','Gender',animal.gender],['🎂','Age',animal.age],
-              ].map(([icon,label,val])=>(
-                <div key={label} style={{background:'#fff',borderRadius:12,padding:'10px 14px',boxShadow:'0 2px 8px rgba(92,51,23,.07)'}}>
-                  <div style={{color:'#a07040',fontSize:'0.73rem',fontWeight:700,marginBottom:2}}>{icon} {label}</div>
-                  <div style={{color:G.brown,fontWeight:800,fontSize:'0.9rem'}}>{val}</div>
-                </div>
-              ))}
-            </div>
             <button onClick={()=>setShowForm(true)}
               style={{width:'100%',background:G.orange,color:'#fff',border:'none',
                 padding:'15px',borderRadius:50,fontWeight:800,fontSize:'1.05rem',
-                cursor:'pointer',boxShadow:`0 6px 20px rgba(232,98,26,.4)`,transition:'all .2s'}}
-              onMouseEnter={e=>e.currentTarget.style.background=G.brown}
-              onMouseLeave={e=>e.currentTarget.style.background=G.orange}>
+                cursor:'pointer',boxShadow:`0 6px 20px rgba(232,98,26,.4)`}}>
               🐾 Apply to Adopt {animal.name}
             </button>
           </div>
         </div>
- 
-        {/* Similar animals */}
-        {similar.length>0&&(
-          <div>
-            <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'1.6rem',color:G.brown,marginBottom:18}}>
-              More {animal.type==='dog'?'Dogs':animal.type==='cat'?'Cats':'Animals'} You May Like
-            </h2>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(240px,1fr))',gap:18}}>
-              {similar.map(p=>(
-                <div key={p.id} onClick={()=>{window.scrollTo(0,0);onBack(p);}}
-                  style={{background:'#fff',borderRadius:16,overflow:'hidden',cursor:'pointer',
-                    boxShadow:'0 4px 16px rgba(92,51,23,.09)',transition:'transform .3s'}}
-                  onMouseEnter={e=>e.currentTarget.style.transform='translateY(-6px)'}
-                  onMouseLeave={e=>e.currentTarget.style.transform='none'}>
-                  <img src={p.imgs[0]} alt={p.name} style={{width:'100%',height:150,objectFit:'cover'}}/>
-                  <div style={{padding:14}}>
-                    <h3 style={{fontFamily:"'Playfair Display',serif",color:G.brown,fontSize:'1.05rem',marginBottom:4}}>{p.name}</h3>
-                    <p style={{color:'#a07040',fontSize:'0.82rem'}}>{p.breed} · {p.age}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
  
-      {/* Adoption modal */}
       {showForm&&(
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.6)',zIndex:300,
           display:'flex',alignItems:'center',justifyContent:'center',padding:16}}>
@@ -633,8 +540,6 @@ function AnimalDetail({animal,onBack,showToast}){
                 style={{background:'none',border:'none',color:G.tan,fontSize:'1.5rem',cursor:'pointer'}}>✕</button>
             </div>
             <div style={{padding:24}}>
-              <img src={animal.imgs[0]} alt={animal.name}
-                style={{width:'100%',height:140,objectFit:'cover',borderRadius:12,marginBottom:18}}/>
               {[['Full Name *','text','name','Your full name'],
                 ['Email *','email','email','your@email.com'],
                 ['Phone','tel','phone','+92 300 0000000']].map(([l,t,k,ph])=>(
@@ -646,7 +551,7 @@ function AnimalDetail({animal,onBack,showToast}){
               <div style={{marginBottom:18}}>
                 <label style={{display:'block',fontWeight:700,color:G.brown,marginBottom:5,fontSize:'0.88rem'}}>Why do you want to adopt?</label>
                 <textarea value={form.reason} onChange={e=>setForm({...form,reason:e.target.value})} rows={3}
-                  placeholder="Tell us about your home and lifestyle..." style={{...inp,resize:'none'}}/>
+                  placeholder="Tell us about your home..." style={{...inp,resize:'none'}}/>
               </div>
               <button onClick={submit}
                 style={{width:'100%',background:G.orange,color:'#fff',border:'none',
@@ -674,12 +579,9 @@ function AdoptPage({showToast}){
         <div style={{textAlign:'center',marginBottom:44}}>
           <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(2rem,5vw,2.8rem)',color:G.brown}}>Animals for Adoption</h1>
           <div style={{width:60,height:4,background:G.orange,borderRadius:2,margin:'12px auto 16px'}}/>
-          <p style={{color:'#7a5c3a',fontSize:'1.05rem',maxWidth:520,margin:'0 auto'}}>
-            Click any animal to see their full photo gallery and details.
-          </p>
         </div>
         <div style={{display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap',marginBottom:36}}>
-          {[['all','🐾 All'],['dog','🐶 Dogs'],['cat','🐱 Cats'],['other','🐴 Others']].map(([v,l])=>(
+          {[['all','🐾 All'],['dog','🐶 Dogs'],['cat','🐱 Cats'],['other','🐇 Others']].map(([v,l])=>(
             <button key={v} onClick={()=>setFilter(v)}
               style={{background:filter===v?G.orange:'#f5e8d0',color:filter===v?'#fff':G.brown,
                 border:filter===v?`2px solid ${G.orange}`:'2px solid transparent',
@@ -693,22 +595,15 @@ function AdoptPage({showToast}){
             <div key={p.id} onClick={()=>{setDetail(p);window.scrollTo(0,0);}}
               style={{background:'#fff',borderRadius:20,overflow:'hidden',cursor:'pointer',
                 boxShadow:'0 4px 20px rgba(92,51,23,.1)',transition:'all .3s'}}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-8px)';e.currentTarget.style.boxShadow='0 16px 40px rgba(232,98,26,.22)';}}
-              onMouseLeave={e=>{e.currentTarget.style.transform='none';e.currentTarget.style.boxShadow='0 4px 20px rgba(92,51,23,.1)';}}>
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-8px)';}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='none';}}>
               <div style={{position:'relative',height:210,overflow:'hidden'}}>
-                <img src={p.imgs[0]} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover',transition:'transform .4s'}}
-                  onMouseEnter={e=>e.currentTarget.style.transform='scale(1.07)'}
-                  onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}/>
+                <img src={p.imgs[0]} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
                 <div style={{position:'absolute',top:12,right:12,
                   background:p.status==='Available'?'#d4edda':'#fff3cd',
                   color:p.status==='Available'?'#155724':'#856404',
                   padding:'4px 12px',borderRadius:50,fontSize:'0.72rem',fontWeight:800}}>
                   {p.status==='Available'?'✅ Available':'⏳ Pending'}
-                </div>
-                <div style={{position:'absolute',bottom:12,left:12,
-                  background:'rgba(0,0,0,.55)',color:'#fff',
-                  padding:'3px 10px',borderRadius:50,fontSize:'0.72rem',fontWeight:700}}>
-                  📷 {p.imgs.length} Photos
                 </div>
               </div>
               <div style={{padding:18}}>
@@ -736,9 +631,6 @@ function AdoptPage({showToast}){
 // ═══════════════════════════════════════════════════════════════════════════════
 // PAGE 4 — DONATE
 // ═══════════════════════════════════════════════════════════════════════════════
-const WHATSAPP_NUM='923484522665';
-function sendWhatsApp(msg){window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`,'_blank');}
-
 function DonatePage({showToast}){
   const [selAmt,setSelAmt]=useState('₨500');
   const [custom,setCustom]=useState('');
@@ -746,88 +638,30 @@ function DonatePage({showToast}){
   const [email,setEmail]=useState('');
   const [method,setMethod]=useState('easypaisa');
   const [donated,setDonated]=useState(false);
+
   const payMethods=[
-    {id:'easypaisa',label:'Easypaisa',color:'#4CAF50',icon:'💚',num:'0315-9607861',title:'Easypaisa Account'},
-    {id:'jazzcash',label:'JazzCash',color:'#E91E63',icon:'💜',num:'0304-5522274',title:'JazzCash Account'},
-    {id:'bank',label:'HBL Bank',color:'#1565C0',icon:'🏦',num:'Coming Soon',title:'Bank Transfer'},
-    {id:'paypal',label:'PayPal',color:'#003087',icon:'💙',num:'laibaak0327@gmail.com',title:'PayPal Email'},
+    {id:'easypaisa',label:'Easypaisa',color:'#4CAF50',icon:'💚',num:'0315-9607861'},
+    {id:'jazzcash',label:'JazzCash',color:'#E91E63',icon:'💜',num:'0304-5522274'},
+    {id:'bank',label:'HBL Bank',color:'#1565C0',icon:'🏦',num:'Coming Soon'},
+    {id:'paypal',label:'PayPal',color:'#003087',icon:'💙',num:'laibaak0327@gmail.com'},
   ];
-  const campaigns=[
-    {title:'Emergency Medical Fund',collected:72000,target:100000,icon:'🩺',color:'#e74c3c'},
-    {title:'Shelter & Food Program',collected:145000,target:200000,icon:'🏠',color:G.orange},
-    {title:'Vaccination Drive',collected:38000,target:50000,icon:'💉',color:G.green},
-  ];
-  const impacts=[
-    {amt:'₨100',desc:'Feeds one animal for a week'},
-    {amt:'₨500',desc:'Covers basic vet checkup'},
-    {amt:'₨1000',desc:'Vaccination for one animal'},
-    {amt:'₨5000',desc:'Emergency surgery support'},
-  ];
+
   const submit=()=>{
     if(!name){showToast('Please enter your name!','error');return;}
-    const amount=custom||selAmt;
-    const sel=payMethods.find(m=>m.id===method);
-    const waMsg=`💛 *New Donation - PawHaven*\n\n👤 Name: ${name}\n📧 Email: ${email||'Not provided'}\n💰 Amount: ${amount}\n💳 Method: ${sel.label}\n📞 Send to: ${sel.num}\n\n_Please confirm payment receipt._`;
-    sendWhatsApp(waMsg);
-    showToast(`💛 Thank you ${name}! WhatsApp khulay ga payment confirm karne ke liye.`);
+    showToast(`💛 Thank you ${name}! Donation submitted successfully.`);
     setDonated(true);
   };
+
   return(
     <div style={{padding:'60px 20px',background:G.cream,minHeight:'100vh'}}>
-      <div style={{maxWidth:1100,margin:'0 auto'}}>
+      <div style={{maxWidth:700,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:48}}>
           <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(2rem,5vw,2.8rem)',color:G.brown}}>Support Our Mission</h1>
           <div style={{width:60,height:4,background:G.orange,borderRadius:2,margin:'12px auto 16px'}}/>
-          <p style={{color:'#7a5c3a',fontSize:'1.05rem',maxWidth:540,margin:'0 auto'}}>
-            Every rupee you donate goes directly toward rescuing, healing, and rehoming animals in need across Pakistan.
-          </p>
         </div>
- 
-        {/* Impact cards */}
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:14,marginBottom:44}}>
-          {impacts.map(i=>(
-            <div key={i.amt} style={{background:'#fff',borderRadius:16,padding:18,textAlign:'center',
-              boxShadow:'0 4px 16px rgba(92,51,23,.08)',border:`2px solid ${G.orange}22`}}>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:'1.5rem',color:G.orange,fontWeight:900}}>{i.amt}</div>
-              <div style={{color:'#7a5c3a',fontSize:'0.88rem',marginTop:6}}>{i.desc}</div>
-            </div>
-          ))}
-        </div>
- 
-        {/* Campaigns */}
-        <div style={{marginBottom:44}}>
-          <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(1.5rem,3vw,1.9rem)',color:G.brown,marginBottom:24,textAlign:'center'}}>Active Campaigns</h2>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:18}}>
-            {campaigns.map(c=>{
-              const pct=Math.round((c.collected/c.target)*100);
-              return(
-                <div key={c.title} style={{background:'#fff',borderRadius:18,padding:24,boxShadow:'0 4px 20px rgba(92,51,23,.08)'}}>
-                  <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
-                    <div style={{width:46,height:46,background:`${c.color}22`,borderRadius:12,
-                      display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.4rem',flexShrink:0}}>{c.icon}</div>
-                    <div>
-                      <div style={{fontWeight:800,color:G.brown,fontSize:'0.95rem'}}>{c.title}</div>
-                      <div style={{color:'#a07040',fontSize:'0.8rem'}}>{pct}% funded</div>
-                    </div>
-                  </div>
-                  <div style={{background:'#f5e8d0',borderRadius:50,height:10,marginBottom:8,overflow:'hidden'}}>
-                    <div style={{height:'100%',width:`${pct}%`,background:`linear-gradient(90deg,${c.color},${c.color}cc)`,borderRadius:50}}/>
-                  </div>
-                  <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.85rem',fontWeight:700}}>
-                    <span style={{color:c.color}}>₨{c.collected.toLocaleString()} raised</span>
-                    <span style={{color:'#a07040'}}>Goal: ₨{c.target.toLocaleString()}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
- 
-        {/* Donate form */}
         {!donated?(
-          <div style={{background:`linear-gradient(135deg,${G.brown},${G.dark})`,borderRadius:24,padding:'36px 28px',color:'#fff',maxWidth:600,margin:'0 auto'}}>
+          <div style={{background:`linear-gradient(135deg,${G.brown},${G.dark})`,borderRadius:24,padding:'36px 28px',color:'#fff'}}>
             <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:'1.8rem',color:G.tan,marginBottom:8,textAlign:'center'}}>Make a Donation</h3>
-            <p style={{color:'#c8a87a',textAlign:'center',marginBottom:24}}>Choose amount and payment method</p>
             <div className="donate-4">
               {['₨100','₨500','₨1000','₨5000'].map(a=>(
                 <button key={a} onClick={()=>{setSelAmt(a);setCustom('');}}
@@ -842,7 +676,6 @@ function DonatePage({showToast}){
               placeholder="Custom amount (₨)" style={{width:'100%',padding:'12px 16px',borderRadius:50,border:'none',
                 textAlign:'center',fontWeight:700,marginBottom:20,fontSize:'1rem',outline:'none',
                 background:'rgba(255,255,255,.12)',color:'#fff'}}/>
-            {/* Payment Methods */}
             <div style={{marginBottom:16}}>
               <div style={{color:G.tan,fontWeight:700,fontSize:'0.9rem',marginBottom:10}}>💳 Select Payment Method</div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
@@ -850,23 +683,16 @@ function DonatePage({showToast}){
                   <button key={m.id} onClick={()=>setMethod(m.id)}
                     style={{background:method===m.id?m.color:'rgba(255,255,255,.08)',
                       color:'#fff',border:`2px solid ${method===m.id?m.color:'rgba(255,255,255,.2)'}`,
-                      padding:'12px 10px',borderRadius:14,fontWeight:700,cursor:'pointer',
-                      fontSize:'0.88rem',transition:'all .2s',textAlign:'center'}}>
+                      padding:'12px 10px',borderRadius:14,fontWeight:700,cursor:'pointer',fontSize:'0.88rem'}}>
                     <div style={{fontSize:'1.4rem',marginBottom:4}}>{m.icon}</div>
                     {m.label}
                   </button>
                 ))}
               </div>
             </div>
-            {/* Selected method detail */}
-            {(()=>{const sel=payMethods.find(m=>m.id===method);return(
-              <div style={{background:'rgba(255,255,255,.1)',borderRadius:14,padding:'12px 16px',marginBottom:16,border:`1px solid ${sel.color}66`}}>
-                <div style={{color:G.tan,fontSize:'0.82rem',fontWeight:700,marginBottom:4}}>{sel.icon} {sel.title}</div>
-                <div style={{color:'#fff',fontWeight:800,fontSize:'1.05rem'}}>{sel.num}</div>
-                {method==='bank'&&<div style={{color:'#ffcc80',fontSize:'0.78rem',marginTop:4}}>Bank details coming soon. Use Easypaisa/JazzCash for now.</div>}
-                {method==='paypal'&&<div style={{color:'#90caf9',fontSize:'0.78rem',marginTop:4}}>Send to this PayPal email address.</div>}
-              </div>
-            );})()}
+            <div style={{background:'rgba(255,255,255,.1)',borderRadius:14,padding:'12px 16px',marginBottom:16}}>
+              <div style={{color:'#fff',fontWeight:800}}>{payMethods.find(m=>m.id===method)?.num}</div>
+            </div>
             <div className="donate-2">
               <input value={name} onChange={e=>setName(e.target.value)} placeholder="Your name *"
                 style={{padding:'12px',borderRadius:12,border:'none',background:'rgba(255,255,255,.12)',color:'#fff',outline:'none',fontFamily:"'Nunito',sans-serif",width:'100%'}}/>
@@ -875,20 +701,15 @@ function DonatePage({showToast}){
             </div>
             <button onClick={submit}
               style={{width:'100%',background:G.orange,color:'#fff',border:'none',padding:'15px',
-                borderRadius:50,fontWeight:800,fontSize:'1.05rem',cursor:'pointer',marginTop:8,
-                boxShadow:'0 8px 24px rgba(232,98,26,.4)'}}>
-              💛 Donate {custom||selAmt} via {payMethods.find(m=>m.id===method)?.label}
+                borderRadius:50,fontWeight:800,fontSize:'1.05rem',cursor:'pointer',marginTop:8}}>
+              💛 Donate {custom||selAmt}
             </button>
-            <p style={{textAlign:'center',color:'#c8a87a',fontSize:'0.8rem',marginTop:10}}>
-              ✅ WhatsApp khul kar payment confirm karega
-            </p>
           </div>
         ):(
           <div style={{textAlign:'center',padding:48}}>
             <div style={{fontSize:'4rem',marginBottom:16}}>💛</div>
-            <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(1.6rem,4vw,2.2rem)',color:G.brown,marginBottom:12}}>Thank You, {name}!</h2>
-            <p style={{color:'#7a5c3a',fontSize:'1.05rem',maxWidth:400,margin:'0 auto 24px'}}>Your donation is already making a difference. Please complete payment via WhatsApp.</p>
-            <button onClick={()=>setDonated(false)} style={{background:G.orange,color:'#fff',border:'none',padding:'13px 32px',borderRadius:50,fontWeight:700,cursor:'pointer',fontSize:'1rem'}}>Donate Again</button>
+            <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'2rem',color:G.brown,marginBottom:12}}>Thank You, {name}!</h2>
+            <button onClick={()=>setDonated(false)} style={{background:G.orange,color:'#fff',border:'none',padding:'13px 32px',borderRadius:50,fontWeight:700,cursor:'pointer'}}>Donate Again</button>
           </div>
         )}
       </div>
@@ -897,75 +718,124 @@ function DonatePage({showToast}){
 }
  
 // ═══════════════════════════════════════════════════════════════════════════════
-// AI ANIMAL SCANNER
+// AI ANIMAL SCANNER — GEMINI API ✅
 // ═══════════════════════════════════════════════════════════════════════════════
 function AIAnimalScanner({showToast}){
   const [phase,setPhase]=useState('upload');
   const [preview,setPreview]=useState(null);
   const [base64,setBase64]=useState(null);
+  const [mimeType,setMimeType]=useState('image/jpeg');
   const [result,setResult]=useState(null);
+  const [errorMsg,setErrorMsg]=useState('');
  
   const handleFile=e=>{
     const file=e.target.files[0];
     if(!file)return;
     const reader=new FileReader();
     reader.onload=(ev)=>{
-      setPreview(ev.target.result);
-      setBase64(ev.target.result.split(',')[1]);
+      const dataUrl=ev.target.result;
+      setPreview(dataUrl);
+      setBase64(dataUrl.split(',')[1]);
+      setMimeType(file.type||'image/jpeg');
       setPhase('preview');
       setResult(null);
+      setErrorMsg('');
     };
     reader.readAsDataURL(file);
   };
  
   const analyze=async()=>{
     setPhase('loading');
-    const prompt=`You are an animal first aid AI assistant for PawHaven, a Pakistan-based animal rescue platform. A user has uploaded a photo of an animal that may be injured, sick, or in distress.
- 
-Analyze the image carefully and respond ONLY in valid JSON (no markdown, no extra text) with this exact structure:
+    setErrorMsg('');
+
+    const prompt=`You are an expert animal first aid AI for PawHaven Pakistan. Analyze this animal photo carefully.
+
+Respond ONLY with a valid JSON object. No markdown, no code fences, no extra text.
+
 {
-  "animal_type": "e.g. Dog, Cat, Bird, Donkey, Horse, Unknown",
-  "condition_observed": "Brief description of what you see (1-2 sentences in simple English)",
-  "severity": "low|medium|high",
-  "severity_label": "Mild|Moderate|Emergency",
+  "animal_type": "Dog / Cat / Bird / Rabbit / Other / Not detected",
+  "condition_observed": "1-2 sentences describing what you see",
+  "severity": "low",
+  "severity_label": "Mild",
   "immediate_steps": [
-    {"icon": "emoji", "title": "Step title", "detail": "Clear instruction what to do", "color": "green|yellow|red"}
+    {
+      "icon": "🩹",
+      "title": "Step title",
+      "detail": "Clear actionable instruction",
+      "color": "green"
+    }
   ],
-  "medicine_advice": "Any safe OTC advice or null if vet only",
-  "bandage_needed": true or false,
-  "bandage_instructions": "Step by step instructions if needed, else null",
-  "vet_needed": true or false,
-  "vet_urgency": "Within 1 hour|Within 24 hours|Not urgent",
-  "encouragement": "A short compassionate English message for the rescuer"
+  "medicine_advice": "Safe medicines or null",
+  "bandage_needed": false,
+  "bandage_instructions": "Instructions or null",
+  "vet_needed": false,
+  "vet_urgency": "Not urgent",
+  "encouragement": "Short compassionate message"
 }
- 
-Provide 3-5 immediate steps. If the image does not show an animal or is unclear, set animal_type to "Not detected", severity to "low", and explain in encouragement.`;
- 
+
+Rules:
+- severity: exactly "low", "medium", or "high"
+- severity_label: exactly "Mild", "Moderate", or "Emergency"
+- color: exactly "green", "yellow", or "red"
+- Give 3-5 immediate_steps
+- If healthy animal: severity "low", vet_needed false, general care tips
+- If unclear/no animal: animal_type "Not detected"
+- ONLY output the JSON object`;
+
     try{
-      const GEMINI_KEY='AIzaSyCXxbNzsG6SZWPUpy1rfMIFKcFbgKjsZAs';
-      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          contents:[{parts:[
-            {inline_data:{mime_type:'image/jpeg',data:base64}},
-            {text:prompt}
-          ]}],
-          generationConfig:{maxOutputTokens:1000}
-        })
-      });
-      const data=await res.json();
-      const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
-      const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+      const GEMINI_KEY = "AIzaSyCtBHdxLlrNJrZM3bjY_yDc5ra8Zu1q8IQ";
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{
+              parts: [
+                { inline_data: { mime_type: mimeType, data: base64 } },
+                { text: prompt }
+              ]
+            }],
+            generationConfig: { temperature: 0.3, maxOutputTokens: 1000 }
+          })
+        }
+      );
+
+      if(!response.ok){
+        const errText = await response.text().catch(()=>'');
+        let errMsg = `API error ${response.status}`;
+        try{ const j=JSON.parse(errText); errMsg=j?.error?.message||errMsg; }catch(e){}
+        throw new Error(errMsg);
+      }
+
+      const data = await response.json();
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+      const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+      if(!jsonMatch) throw new Error('Could not parse AI response. Please try again.');
+
+      const parsed = JSON.parse(jsonMatch[0]);
+
+      if(!parsed.animal_type) parsed.animal_type = 'Unknown';
+      if(!parsed.condition_observed) parsed.condition_observed = 'Unable to determine condition.';
+      if(!['low','medium','high'].includes(parsed.severity)) parsed.severity = 'low';
+      if(!['Mild','Moderate','Emergency'].includes(parsed.severity_label)) parsed.severity_label = 'Mild';
+      if(!Array.isArray(parsed.immediate_steps)) parsed.immediate_steps = [];
+      if(typeof parsed.vet_needed !== 'boolean') parsed.vet_needed = false;
+      if(typeof parsed.bandage_needed !== 'boolean') parsed.bandage_needed = false;
+      if(!parsed.encouragement) parsed.encouragement = 'Thank you for helping this animal. Every act of kindness matters.';
+
       setResult(parsed);
       setPhase('result');
-    }catch{
-      showToast('Could not connect to AI. Please check your internet and try again.','error');
+    } catch(err) {
+      console.error('AI Scanner error:', err);
+      setErrorMsg(err.message || 'Unknown error occurred');
+      showToast('Could not analyze image. Please try again.','error');
       setPhase('preview');
     }
   };
  
-  const reset=()=>{setPhase('upload');setPreview(null);setBase64(null);setResult(null);};
+  const reset=()=>{setPhase('upload');setPreview(null);setBase64(null);setResult(null);setErrorMsg('');};
  
   const sevBg={low:'#d4edda',medium:'#fff3cd',high:'#f8d7da'};
   const sevClr={low:'#155724',medium:'#856404',high:'#721c24'};
@@ -975,7 +845,6 @@ Provide 3-5 immediate steps. If the image does not show an animal or is unclear,
  
   return(
     <div style={{maxWidth:700,margin:'0 auto'}}>
-      {/* Header */}
       <div style={{background:`linear-gradient(135deg,${G.brown},${G.orange})`,borderRadius:20,
         padding:'28px 24px',color:'#fff',textAlign:'center',marginBottom:24}}>
         <div style={{fontSize:'3rem',marginBottom:10}}>🔬</div>
@@ -983,38 +852,33 @@ Provide 3-5 immediate steps. If the image does not show an animal or is unclear,
           AI Animal Injury Scanner
         </h2>
         <p style={{opacity:.9,fontSize:'0.95rem',lineHeight:1.6}}>
-          Upload a photo of an injured animal — AI will instantly tell you:<br/>
-          🩹 How to bandage &nbsp;·&nbsp; 💊 What medicine to give &nbsp;·&nbsp; 🏥 When to see a vet
+          Upload a photo — AI will tell you how to help the animal instantly
         </p>
-        <div style={{display:'flex',justifyContent:'center',gap:20,marginTop:18,flexWrap:'wrap'}}>
-          {[['📸','Photo Upload'],['🤖','AI Analysis'],['⚡','Instant Result']].map(([ic,lb])=>(
-            <div key={lb} style={{textAlign:'center'}}>
-              <div style={{fontSize:'1.5rem'}}>{ic}</div>
-              <div style={{fontSize:'0.78rem',opacity:.8,marginTop:2}}>{lb}</div>
-            </div>
-          ))}
-        </div>
       </div>
- 
-      {/* Upload */}
+
       {phase==='upload'&&(
         <label style={{display:'flex',flexDirection:'column',alignItems:'center',
           border:`2.5px dashed ${G.tan}`,borderRadius:18,padding:'44px 20px',
-          cursor:'pointer',background:'#fff8f0',textAlign:'center',transition:'all .2s'}}>
+          cursor:'pointer',background:'#fff8f0',textAlign:'center'}}>
           <div style={{fontSize:'3.5rem',marginBottom:14}}>📸</div>
           <div style={{fontWeight:800,color:G.brown,fontSize:'1.1rem',marginBottom:6}}>
-            Click here to upload a photo of the animal
+            Click here to upload a photo
           </div>
           <div style={{color:'#a07040',fontSize:'0.85rem'}}>JPG · PNG · Any angle accepted</div>
           <input type="file" accept="image/*" onChange={handleFile} style={{display:'none'}}/>
         </label>
       )}
- 
-      {/* Preview */}
+
       {phase==='preview'&&(
         <div style={{background:'#fff',borderRadius:18,padding:24,boxShadow:'0 4px 20px rgba(92,51,23,.1)'}}>
           <img src={preview} alt="preview"
             style={{width:'100%',maxHeight:320,objectFit:'cover',borderRadius:12,marginBottom:18}}/>
+          {errorMsg&&(
+            <div style={{background:'#fff0f0',border:'1px solid #e74c3c',borderRadius:10,padding:'10px 14px',
+              color:'#c0392b',fontSize:'0.85rem',marginBottom:14}}>
+              ⚠️ {errorMsg}
+            </div>
+          )}
           <div style={{display:'flex',gap:12}}>
             <button onClick={reset}
               style={{background:'#f5e8d0',color:G.brown,border:'none',
@@ -1031,8 +895,7 @@ Provide 3-5 immediate steps. If the image does not show an animal or is unclear,
           </div>
         </div>
       )}
- 
-      {/* Loading */}
+
       {phase==='loading'&&(
         <div style={{background:'#fff',borderRadius:18,padding:'48px 24px',
           textAlign:'center',boxShadow:'0 4px 20px rgba(92,51,23,.1)'}}>
@@ -1049,52 +912,62 @@ Provide 3-5 immediate steps. If the image does not show an animal or is unclear,
           </div>
         </div>
       )}
- 
-      {/* Result */}
+
       {phase==='result'&&result&&(
         <div style={{background:'#fff',borderRadius:18,padding:28,boxShadow:'0 4px 24px rgba(92,51,23,.12)'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:16,flexWrap:'wrap',gap:10}}>
             <div>
               <div style={{fontSize:'0.75rem',color:'#a07040',fontWeight:700,textTransform:'uppercase',letterSpacing:1,marginBottom:4}}>Animal Detected</div>
-              <div style={{color:G.brown,fontWeight:800,fontSize:'1.15rem'}}>🐾 {result.animal_type||'Unknown'}</div>
+              <div style={{color:G.brown,fontWeight:800,fontSize:'1.15rem'}}>🐾 {result.animal_type}</div>
             </div>
-            <span style={{background:sevBg[result.severity]||'#d4edda',color:sevClr[result.severity]||'#155724',
-              padding:'6px 18px',borderRadius:50,fontWeight:800,fontSize:'0.83rem'}}>
-              {sevEmoji[result.severity]||'✅'} {result.severity_label||result.severity}
+            <span style={{
+              background:sevBg[result.severity]||sevBg.low,
+              color:sevClr[result.severity]||sevClr.low,
+              padding:'6px 18px',borderRadius:50,fontWeight:800,fontSize:'0.83rem',
+              display:'inline-flex',alignItems:'center',gap:6}}>
+              {sevEmoji[result.severity]||'✅'} {result.severity_label||'Mild'}
             </span>
           </div>
- 
+
           <div style={{background:'#f5e8d0',borderRadius:10,padding:'12px 16px',color:G.brown,fontSize:'0.92rem',lineHeight:1.65,marginBottom:20}}>
             <strong>AI Observation:</strong> {result.condition_observed}
           </div>
- 
-          <div style={{fontWeight:800,color:G.brown,fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:.8,marginBottom:10}}>
-            Immediate Steps
-          </div>
-          {(result.immediate_steps||[]).map((s,i)=>(
-            <div key={i} style={{background:stepBg[s.color]||stepBg.green,
-              borderLeft:`4px solid ${stepBdr[s.color]||stepBdr.green}`,
-              borderRadius:'0 10px 10px 0',padding:'12px 15px',marginBottom:8,display:'flex',gap:12,alignItems:'flex-start'}}>
-              <span style={{fontSize:'1.3rem',flexShrink:0,marginTop:1}}>{s.icon}</span>
-              <div>
-                <div style={{fontWeight:800,color:G.dark,fontSize:'0.92rem',marginBottom:3}}>{s.title}</div>
-                <div style={{color:'#5a3e28',fontSize:'0.87rem',lineHeight:1.55}}>{s.detail}</div>
+
+          {result.immediate_steps && result.immediate_steps.length > 0 && (
+            <>
+              <div style={{fontWeight:800,color:G.brown,fontSize:'0.82rem',textTransform:'uppercase',letterSpacing:.8,marginBottom:10}}>
+                🚑 Immediate Steps
               </div>
-            </div>
-          ))}
- 
-          {result.bandage_needed&&(
-            <div style={{background:'#fffbea',borderLeft:'4px solid #d4a017',borderRadius:'0 10px 10px 0',padding:'12px 15px',marginTop:12,display:'flex',gap:12,alignItems:'flex-start'}}>
+              {result.immediate_steps.map((s,i)=>(
+                <div key={i} style={{
+                  background:stepBg[s.color]||stepBg.green,
+                  borderLeft:`4px solid ${stepBdr[s.color]||stepBdr.green}`,
+                  borderRadius:'0 10px 10px 0',padding:'12px 15px',marginBottom:8,
+                  display:'flex',gap:12,alignItems:'flex-start'}}>
+                  <span style={{fontSize:'1.3rem',flexShrink:0,marginTop:1}}>{s.icon||'🔹'}</span>
+                  <div>
+                    <div style={{fontWeight:800,color:G.dark,fontSize:'0.92rem',marginBottom:3}}>{s.title}</div>
+                    <div style={{color:'#5a3e28',fontSize:'0.87rem',lineHeight:1.55}}>{s.detail}</div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+
+          {result.bandage_needed && result.bandage_instructions && (
+            <div style={{background:'#fffbea',borderLeft:'4px solid #d4a017',borderRadius:'0 10px 10px 0',
+              padding:'12px 15px',marginTop:12,display:'flex',gap:12}}>
               <span style={{fontSize:'1.3rem',flexShrink:0}}>🩹</span>
               <div>
-                <div style={{fontWeight:800,color:G.dark,fontSize:'0.92rem',marginBottom:3}}>Apply a Bandage</div>
+                <div style={{fontWeight:800,color:G.dark,fontSize:'0.92rem',marginBottom:3}}>How to Apply a Bandage</div>
                 <div style={{color:'#5a3e28',fontSize:'0.87rem',lineHeight:1.55}}>{result.bandage_instructions}</div>
               </div>
             </div>
           )}
- 
-          {result.medicine_advice&&(
-            <div style={{background:'#eaf7f0',borderLeft:'4px solid #2d7a4f',borderRadius:'0 10px 10px 0',padding:'12px 15px',marginTop:10,display:'flex',gap:12,alignItems:'flex-start'}}>
+
+          {result.medicine_advice && (
+            <div style={{background:'#eaf7f0',borderLeft:'4px solid #2d7a4f',borderRadius:'0 10px 10px 0',
+              padding:'12px 15px',marginTop:10,display:'flex',gap:12}}>
               <span style={{fontSize:'1.3rem',flexShrink:0}}>💊</span>
               <div>
                 <div style={{fontWeight:800,color:G.dark,fontSize:'0.92rem',marginBottom:3}}>Medicine Advice</div>
@@ -1102,24 +975,37 @@ Provide 3-5 immediate steps. If the image does not show an animal or is unclear,
               </div>
             </div>
           )}
- 
-          {result.vet_needed&&(
-            <div style={{background:'linear-gradient(135deg,#c0392b,#e74c3c)',borderRadius:14,padding:'16px 20px',marginTop:16,display:'flex',gap:14,alignItems:'center'}}>
+
+          {result.vet_needed && (
+            <div style={{background:'linear-gradient(135deg,#c0392b,#e74c3c)',borderRadius:14,
+              padding:'16px 20px',marginTop:16,display:'flex',gap:14,alignItems:'center'}}>
               <div style={{fontSize:'2.2rem',flexShrink:0}}>🏥</div>
               <div>
-                <div style={{color:'#fff',fontWeight:800,fontSize:'1rem',marginBottom:4}}>Vet Required — {result.vet_urgency}</div>
-                <div style={{color:'rgba(255,255,255,.9)',fontSize:'0.87rem',lineHeight:1.55}}>
-                  This cannot be managed at home. Call PawHaven emergency line now: <strong>+92-348-4522665</strong>
+                <div style={{color:'#fff',fontWeight:800,fontSize:'1rem',marginBottom:4}}>
+                  Vet Required — {result.vet_urgency}
+                </div>
+                <div style={{color:'rgba(255,255,255,.9)',fontSize:'0.87rem'}}>
+                  Call PawHaven emergency: <strong>+92-348-4522665</strong>
                 </div>
               </div>
             </div>
           )}
- 
+
+          {!result.vet_needed && (
+            <div style={{background:'#eaf7f0',borderRadius:12,padding:'12px 16px',marginTop:12,
+              display:'flex',gap:10,alignItems:'center'}}>
+              <span style={{fontSize:'1.2rem'}}>✅</span>
+              <div style={{color:'#155724',fontSize:'0.87rem',fontWeight:700}}>
+                Vet visit: {result.vet_urgency || 'Not urgent'}
+              </div>
+            </div>
+          )}
+
           <div style={{marginTop:18,background:`linear-gradient(135deg,${G.brown},${G.orange})`,
             borderRadius:12,padding:'14px 18px',color:'#fff',fontSize:'0.9rem',lineHeight:1.65}}>
             💛 <em>{result.encouragement}</em>
           </div>
- 
+
           <button onClick={reset}
             style={{width:'100%',background:'#f5e8d0',color:G.brown,border:'none',
               padding:'13px',borderRadius:50,fontWeight:700,cursor:'pointer',marginTop:18,fontSize:'0.95rem'}}>
@@ -1127,9 +1013,9 @@ Provide 3-5 immediate steps. If the image does not show an animal or is unclear,
           </button>
         </div>
       )}
- 
-      <p style={{color:'#a07040',fontSize:'0.78rem',textAlign:'center',marginTop:14,lineHeight:1.6,padding:'0 10px'}}>
-        ⚠️ This AI guide is for reference only — not a certified vet. For serious or emergency cases, always consult a qualified veterinarian.
+
+      <p style={{color:'#a07040',fontSize:'0.78rem',textAlign:'center',marginTop:14,lineHeight:1.6}}>
+        ⚠️ AI guide for reference only — not a certified vet. For emergencies, consult a veterinarian.
       </p>
     </div>
   );
@@ -1148,25 +1034,25 @@ function AwarenessPage({showToast}){
   ];
   const firstaid=[
     {icon:'🩸',title:'For Bleeding Animals',steps:["Stay calm — don't panic",'Gently restrain the animal','Apply clean cloth and gentle pressure','Do NOT remove embedded objects','Get to a vet immediately']},
-    {icon:'🦴',title:'Suspected Fracture',steps:['Do not move the animal unnecessarily','Support the injured limb gently','Use a flat surface as a stretcher','Keep the animal warm and quiet','Call emergency vet line']},
-    {icon:'🌡️',title:'Heatstroke',steps:['Move animal to shade/cool area','Apply cool (not cold) water to body','Offer small sips of water','Fan gently to aid cooling','Seek vet care immediately']},
-    {icon:'🐕',title:'Hit by Vehicle',steps:['Approach slowly and calmly','Do not muzzle if breathing issues','Slide onto a flat board carefully','Keep head slightly elevated','Rush to nearest emergency vet']},
+    {icon:'🦴',title:'Suspected Fracture',steps:['Do not move unnecessarily','Support the injured limb gently','Use a flat surface as stretcher','Keep warm and quiet','Call emergency vet']},
+    {icon:'🌡️',title:'Heatstroke',steps:['Move to shade/cool area','Apply cool water to body','Offer small sips of water','Fan gently','Seek vet care immediately']},
+    {icon:'🐕',title:'Hit by Vehicle',steps:['Approach slowly and calmly','Do not muzzle if breathing issues','Slide onto flat board carefully','Keep head slightly elevated','Rush to nearest emergency vet']},
   ];
   const care=[
-    {icon:'💧',title:'Hydration',desc:"Always ensure fresh, clean water is available. Animals dehydrate much faster than humans, especially in Pakistan's summer heat."},
-    {icon:'🥩',title:'Nutrition',desc:'Feed age-appropriate, balanced meals. Avoid onions, grapes, chocolate — these are toxic to dogs and cats.'},
-    {icon:'🏃',title:'Exercise',desc:'Dogs need daily walks and mental stimulation. Even indoor cats benefit from interactive play for 20–30 mins daily.'},
-    {icon:'🩺',title:'Regular Vet Visits',desc:'Annual checkups and vaccinations protect against rabies, parvovirus, and other common diseases in Pakistan.'},
-    {icon:'🛁',title:'Grooming',desc:'Regular brushing prevents matting and skin issues. Check ears weekly for infection signs.'},
-    {icon:'❤️',title:'Love & Socialization',desc:'Animals need daily interaction and affection. Lonely animals develop anxiety and behavioral problems.'},
+    {icon:'💧',title:'Hydration',desc:"Always ensure fresh clean water. Animals dehydrate fast in Pakistan's summer heat."},
+    {icon:'🥩',title:'Nutrition',desc:'Feed balanced meals. Avoid onions, grapes, chocolate — toxic to dogs and cats.'},
+    {icon:'🏃',title:'Exercise',desc:'Dogs need daily walks. Indoor cats benefit from 20-30 mins play daily.'},
+    {icon:'🩺',title:'Regular Vet Visits',desc:'Annual checkups protect against rabies, parvovirus, and common diseases.'},
+    {icon:'🛁',title:'Grooming',desc:'Regular brushing prevents matting. Check ears weekly for infection signs.'},
+    {icon:'❤️',title:'Love & Socialization',desc:'Animals need daily interaction. Lonely animals develop anxiety and behavioral problems.'},
   ];
   const rescue=[
     {step:'1',title:'Stay Calm',desc:'Approach slowly. Speak softly. Sudden movements scare injured animals.'},
-    {step:'2',title:'Assess Safety',desc:'Check for traffic and other hazards before approaching. Your safety comes first.'},
-    {step:'3',title:'Call PawHaven',desc:'Call +92-300-PAWHAVEN or use our emergency report button for immediate help.'},
-    {step:'4',title:'Contain the Animal',desc:'Use a box, bag, or towel to gently contain small animals. For large dogs, use a leash if safe.'},
+    {step:'2',title:'Assess Safety',desc:'Check for traffic and hazards before approaching. Your safety comes first.'},
+    {step:'3',title:'Call PawHaven',desc:'Call +92-300-PAWHAVEN or use our emergency report button.'},
+    {step:'4',title:'Contain the Animal',desc:'Use a box or towel to contain small animals. For large dogs, use a leash if safe.'},
     {step:'5',title:'Keep Warm',desc:'Cover with a light cloth to reduce shock. Avoid excessive handling.'},
-    {step:'6',title:'Do Not Feed',desc:'Do not give food or water to injured animals — it can interfere with emergency treatment.'},
+    {step:'6',title:'Do Not Feed',desc:'Do not give food or water to injured animals — can interfere with treatment.'},
   ];
   return(
     <div style={{padding:'60px 20px',background:G.cream,minHeight:'100vh'}}>
@@ -1174,16 +1060,14 @@ function AwarenessPage({showToast}){
         <div style={{textAlign:'center',marginBottom:44}}>
           <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(2rem,5vw,2.8rem)',color:G.brown}}>Awareness Hub</h1>
           <div style={{width:60,height:4,background:G.orange,borderRadius:2,margin:'12px auto 16px'}}/>
-          <p style={{color:'#7a5c3a',fontSize:'1.05rem',maxWidth:520,margin:'0 auto'}}>Knowledge saves lives. Learn how to help, care for, and protect animals in your community.</p>
+          <p style={{color:'#7a5c3a',fontSize:'1.05rem',maxWidth:520,margin:'0 auto'}}>Knowledge saves lives.</p>
         </div>
         <div style={{display:'flex',justifyContent:'center',gap:8,marginBottom:36,flexWrap:'wrap'}}>
           {tabs.map(t=>(
             <button key={t.id} onClick={()=>setActiveTab(t.id)}
               style={{background:activeTab===t.id?G.brown:'#fff',color:activeTab===t.id?'#fff':G.brown,
                 border:`2px solid ${activeTab===t.id?G.brown:'#e0c9a8'}`,
-                padding:'9px 18px',borderRadius:50,fontWeight:700,cursor:'pointer',
-                fontSize:'0.88rem',transition:'all .2s',
-                boxShadow:activeTab===t.id?'0 4px 16px rgba(92,51,23,.25)':'none'}}>
+                padding:'9px 18px',borderRadius:50,fontWeight:700,cursor:'pointer',fontSize:'0.88rem'}}>
               {t.label}
             </button>
           ))}
@@ -1240,43 +1124,41 @@ function VolunteerPage({showToast}){
   const [form,setForm]=useState({name:'',email:'',phone:'',city:'',role:'',experience:'',availability:''});
   const [done,setDone]=useState(false);
   const roles=[
-    {icon:'🚑',title:'Rescue Responder',desc:'Be first on scene for emergency animal rescues. Requires physical fitness.'},
-    {icon:'🏠',title:'Foster Parent',desc:'Provide temporary home and care for rescued animals awaiting adoption.'},
-    {icon:'📱',title:'Social Media Volunteer',desc:'Help spread awareness and manage our online presence and campaigns.'},
-    {icon:'🩺',title:'Vet Assistant',desc:'Support our medical team during checkups and procedures (vet students welcome).'},
-    {icon:'🚗',title:'Transport Volunteer',desc:'Drive rescued animals to vets, shelters, or foster homes across the city.'},
-    {icon:'📚',title:'Awareness Educator',desc:'Visit schools and communities to spread animal welfare education.'},
+    {icon:'🚑',title:'Rescue Responder',desc:'Be first on scene for emergency rescues.'},
+    {icon:'🏠',title:'Foster Parent',desc:'Provide temporary home for rescued animals.'},
+    {icon:'📱',title:'Social Media Volunteer',desc:'Help spread awareness online.'},
+    {icon:'🩺',title:'Vet Assistant',desc:'Support our medical team (vet students welcome).'},
+    {icon:'🚗',title:'Transport Volunteer',desc:'Drive rescued animals to vets or shelters.'},
+    {icon:'📚',title:'Awareness Educator',desc:'Visit schools to spread animal welfare education.'},
   ];
   const inp={width:'100%',padding:'12px 16px',borderRadius:12,border:'1.5px solid #e0c9a8',fontSize:'0.93rem',background:'#fff',outline:'none',fontFamily:"'Nunito',sans-serif"};
   const lbl={display:'block',fontWeight:700,color:G.brown,marginBottom:6,fontSize:'0.9rem'};
+
   const submit=()=>{
     if(!form.name||!form.email||!form.role){showToast('Please fill required fields!','error');return;}
-    const waMsg=`🤝 *New Volunteer - PawHaven*\n\n👤 Name: ${form.name}\n📧 Email: ${form.email}\n📞 Phone: ${form.phone||'Not provided'}\n🏙️ City: ${form.city||'Not provided'}\n🎯 Role: ${form.role}\n⏰ Availability: ${form.availability||'Not specified'}\n📝 Experience: ${form.experience||'None mentioned'}`;
-    sendWhatsApp(waMsg);
+    showToast('🤝 Welcome to the PawHaven team!');
     setDone(true);
-    showToast('🤝 Welcome to the PawHaven team! WhatsApp pe details ja rahi hain.');
   };
+
   if(done) return(
     <div style={{minHeight:'80vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:20,padding:40,textAlign:'center'}}>
       <div style={{fontSize:'5rem'}}>🤝</div>
-      <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(1.6rem,4vw,2.2rem)',color:G.brown}}>Welcome to the Team, {form.name}!</h2>
-      <p style={{color:'#7a5c3a',fontSize:'1.05rem',maxWidth:440}}>You're now part of PawHaven's rescue family. We'll reach out within 48 hours.</p>
-      <button onClick={()=>setDone(false)} style={{background:G.orange,color:'#fff',border:'none',padding:'13px 32px',borderRadius:50,fontWeight:700,cursor:'pointer',fontSize:'1rem'}}>Back</button>
+      <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'2rem',color:G.brown}}>Welcome, {form.name}!</h2>
+      <p style={{color:'#7a5c3a',maxWidth:440}}>You're now part of PawHaven's rescue family. We'll reach out within 48 hours.</p>
+      <button onClick={()=>setDone(false)} style={{background:G.orange,color:'#fff',border:'none',padding:'13px 32px',borderRadius:50,fontWeight:700,cursor:'pointer'}}>Back</button>
     </div>
   );
+
   return(
     <div style={{padding:'60px 20px',background:G.cream,minHeight:'100vh'}}>
       <div style={{maxWidth:1100,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:48}}>
           <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(2rem,5vw,2.8rem)',color:G.brown}}>Join the Rescue Team</h1>
           <div style={{width:60,height:4,background:G.orange,borderRadius:2,margin:'12px auto 16px'}}/>
-          <p style={{color:'#7a5c3a',fontSize:'1.05rem',maxWidth:520,margin:'0 auto'}}>Be the reason an animal survives.</p>
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:18,marginBottom:48}}>
           {roles.map(r=>(
-            <div key={r.title} style={{background:'#fff',borderRadius:18,padding:22,boxShadow:'0 4px 16px rgba(92,51,23,.08)',transition:'all .3s',border:'2px solid transparent'}}
-              onMouseEnter={e=>{e.currentTarget.style.borderColor=G.orange;e.currentTarget.style.transform='translateY(-4px)';}}
-              onMouseLeave={e=>{e.currentTarget.style.borderColor='transparent';e.currentTarget.style.transform='none';}}>
+            <div key={r.title} style={{background:'#fff',borderRadius:18,padding:22,boxShadow:'0 4px 16px rgba(92,51,23,.08)'}}>
               <div style={{fontSize:'2.2rem',marginBottom:10}}>{r.icon}</div>
               <h3 style={{fontFamily:"'Playfair Display',serif",color:G.brown,fontSize:'1.1rem',marginBottom:8}}>{r.title}</h3>
               <p style={{color:'#7a5c3a',fontSize:'0.88rem',lineHeight:1.6}}>{r.desc}</p>
@@ -1284,7 +1166,7 @@ function VolunteerPage({showToast}){
           ))}
         </div>
         <div style={{background:G.brown,borderRadius:24,padding:'36px 28px',color:'#fff',maxWidth:720,margin:'0 auto'}}>
-          <h2 style={{fontFamily:"'Playfair Display',serif",color:G.tan,fontSize:'clamp(1.5rem,3vw,1.9rem)',marginBottom:24,textAlign:'center'}}>Volunteer Registration</h2>
+          <h2 style={{fontFamily:"'Playfair Display',serif",color:G.tan,fontSize:'1.9rem',marginBottom:24,textAlign:'center'}}>Volunteer Registration</h2>
           <div className="vol-2">
             {[['Full Name *','text','name','Your name'],['Email *','email','email','your@email.com'],['Phone','tel','phone','+92 300 0000000'],['City','text','city','Lahore, Karachi...']].map(([l,t,k,ph])=>(
               <div key={k}>
@@ -1302,15 +1184,6 @@ function VolunteerPage({showToast}){
               {roles.map(r=><option key={r.title} value={r.title}>{r.icon} {r.title}</option>)}
             </select>
           </div>
-          <div style={{marginBottom:14}}>
-            <label style={{...lbl,color:G.tan}}>Availability</label>
-            <select value={form.availability} onChange={e=>setForm({...form,availability:e.target.value})}
-              style={{...inp,background:'rgba(255,255,255,.1)',border:'1.5px solid rgba(255,255,255,.2)',color:form.availability?'#fff':'#c8a87a'}}>
-              <option value="">Select availability...</option>
-              <option>Weekdays only</option><option>Weekends only</option>
-              <option>Evenings only</option><option>Flexible / Anytime</option>
-            </select>
-          </div>
           <div style={{marginBottom:22}}>
             <label style={{...lbl,color:G.tan}}>Experience with Animals</label>
             <textarea value={form.experience} onChange={e=>setForm({...form,experience:e.target.value})}
@@ -1318,7 +1191,7 @@ function VolunteerPage({showToast}){
           </div>
           <button onClick={submit}
             style={{width:'100%',background:G.orange,color:'#fff',border:'none',padding:'15px',
-              borderRadius:50,fontWeight:800,fontSize:'1.05rem',cursor:'pointer',boxShadow:'0 8px 24px rgba(232,98,26,.4)'}}>
+              borderRadius:50,fontWeight:800,fontSize:'1.05rem',cursor:'pointer'}}>
             🤝 Join PawHaven Rescue Team
           </button>
         </div>
@@ -1336,18 +1209,19 @@ function ContactPage({showToast}){
   const [vf,setVf]=useState({petName:'',petType:'',ownerName:'',email:'',phone:'',date:'',time:'',issue:''});
   const inp={width:'100%',padding:'12px 16px',borderRadius:12,border:'1.5px solid #e0c9a8',fontSize:'0.93rem',background:'#fff',outline:'none',fontFamily:"'Nunito',sans-serif"};
   const lbl={display:'block',fontWeight:700,color:G.brown,marginBottom:6,fontSize:'0.9rem'};
+
   const submitContact=()=>{
     if(!cf.name||!cf.email||!cf.msg){showToast('Please fill all required fields!','error');return;}
-    const waMsg=`📞 *New Contact Message - PawHaven*\n\n👤 Name: ${cf.name}\n📧 Email: ${cf.email}\n📞 Phone: ${cf.phone||'Not provided'}\n💬 Message: ${cf.msg}`;
-    sendWhatsApp(waMsg);
-    showToast("💌 Message sent! WhatsApp pe details ja rahi hain.");
+    showToast('💌 Message sent successfully!');
     setCf({name:'',email:'',phone:'',msg:''});
   };
+
   const submitVet=()=>{
     if(!vf.petName||!vf.ownerName||!vf.email||!vf.date){showToast('Please fill required fields!','error');return;}
     showToast(`🩺 Vet appointment booked for ${vf.petName} on ${vf.date}!`);
     setVf({petName:'',petType:'',ownerName:'',email:'',phone:'',date:'',time:'',issue:''});
   };
+
   return(
     <div style={{padding:'60px 20px',background:G.cream,minHeight:'100vh'}}>
       <div style={{maxWidth:1100,margin:'0 auto'}}>
@@ -1360,7 +1234,7 @@ function ContactPage({showToast}){
             <button key={v} onClick={()=>setTab(v)}
               style={{background:tab===v?G.orange:'#fff',color:tab===v?'#fff':G.brown,
                 border:`2px solid ${tab===v?G.orange:'#e0c9a8'}`,
-                padding:'11px 24px',borderRadius:50,fontWeight:700,cursor:'pointer',fontSize:'0.95rem',transition:'all .2s'}}>
+                padding:'11px 24px',borderRadius:50,fontWeight:700,cursor:'pointer',fontSize:'0.95rem'}}>
               {l}
             </button>
           ))}
@@ -1368,29 +1242,21 @@ function ContactPage({showToast}){
  
         {tab==='contact'&&(
           <div className="contact-grid">
-            {/* Info */}
-            <div>
-              <div style={{background:G.brown,borderRadius:20,padding:28,marginBottom:18}}>
-                <h3 style={{fontFamily:"'Playfair Display',serif",color:G.tan,fontSize:'1.35rem',marginBottom:22}}>Get in Touch</h3>
-                {[['📍','Address','Pakistan'],
-                  ['📞','Emergency Hotline','+92-348-4522665'],
-                  ['✉️','Email','laibaak0327@gmail.com'],
-                  ['🕐','Office Hours','Mon–Sat: 9am–7pm | Emergency: 24/7'],
-                ].map(([icon,title,val])=>(
-                  <div key={title} style={{display:'flex',gap:14,marginBottom:18}}>
-                    <div style={{width:42,height:42,background:G.orange,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.05rem',flexShrink:0}}>{icon}</div>
-                    <div>
-                      <div style={{color:G.tan,fontWeight:700,fontSize:'0.85rem'}}>{title}</div>
-                      <div style={{color:'#c8a87a',fontSize:'0.88rem',marginTop:2}}>{val}</div>
-                    </div>
+            <div style={{background:G.brown,borderRadius:20,padding:28}}>
+              <h3 style={{fontFamily:"'Playfair Display',serif",color:G.tan,fontSize:'1.35rem',marginBottom:22}}>Get in Touch</h3>
+              {[['📍','Address','Pakistan'],['📞','Emergency','+92-348-4522665'],['✉️','Email','laibaak0327@gmail.com'],['🕐','Hours','Mon–Sat 9am–7pm | Emergency 24/7']].map(([icon,title,val])=>(
+                <div key={title} style={{display:'flex',gap:14,marginBottom:18}}>
+                  <div style={{width:42,height:42,background:G.orange,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.05rem',flexShrink:0}}>{icon}</div>
+                  <div>
+                    <div style={{color:G.tan,fontWeight:700,fontSize:'0.85rem'}}>{title}</div>
+                    <div style={{color:'#c8a87a',fontSize:'0.88rem',marginTop:2}}>{val}</div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-            {/* Form */}
             <div style={{background:'#fff',borderRadius:20,padding:'28px 24px',boxShadow:'0 4px 24px rgba(92,51,23,.1)'}}>
               <h3 style={{fontFamily:"'Playfair Display',serif",color:G.brown,fontSize:'1.45rem',marginBottom:22}}>Send Us a Message</h3>
-              {[['Full Name *','text','name','Your name'],['Email Address *','email','email','your@email.com'],['Phone','tel','phone','+92 300 0000000']].map(([l,t,k,ph])=>(
+              {[['Full Name *','text','name','Your name'],['Email *','email','email','your@email.com'],['Phone','tel','phone','+92 300 0000000']].map(([l,t,k,ph])=>(
                 <div key={k} style={{marginBottom:14}}>
                   <label style={lbl}>{l}</label>
                   <input type={t} value={cf[k]} onChange={e=>setCf({...cf,[k]:e.target.value})} placeholder={ph} style={inp}/>
@@ -1399,7 +1265,7 @@ function ContactPage({showToast}){
               <div style={{marginBottom:18}}>
                 <label style={lbl}>Message *</label>
                 <textarea value={cf.msg} onChange={e=>setCf({...cf,msg:e.target.value})} rows={5}
-                  placeholder="How can we help you?" style={{...inp,resize:'none'}}/>
+                  placeholder="How can we help?" style={{...inp,resize:'none'}}/>
               </div>
               <button onClick={submitContact}
                 style={{width:'100%',background:G.orange,color:'#fff',border:'none',
@@ -1414,8 +1280,8 @@ function ContactPage({showToast}){
           <div style={{maxWidth:700,margin:'0 auto'}}>
             <div style={{background:`linear-gradient(135deg,${G.green},#1a5c35)`,borderRadius:20,padding:28,color:'#fff',marginBottom:24,textAlign:'center'}}>
               <div style={{fontSize:'3rem',marginBottom:12}}>🩺</div>
-              <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(1.5rem,3vw,1.9rem)',marginBottom:8}}>Online Vet Consultation</h2>
-              <p style={{opacity:.85}}>Book a video or chat consultation with our certified veterinarians.</p>
+              <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'1.9rem',marginBottom:8}}>Online Vet Consultation</h2>
+              <p style={{opacity:.85}}>Book with our certified veterinarians.</p>
             </div>
             <div style={{background:'#fff',borderRadius:20,padding:'28px 24px',boxShadow:'0 4px 24px rgba(92,51,23,.1)'}}>
               <div className="vet-2">
@@ -1429,12 +1295,12 @@ function ContactPage({showToast}){
                 </div>
                 <div><label style={lbl}>Your Name *</label><input value={vf.ownerName} onChange={e=>setVf({...vf,ownerName:e.target.value})} placeholder="Owner name" style={inp}/></div>
                 <div><label style={lbl}>Email *</label><input type="email" value={vf.email} onChange={e=>setVf({...vf,email:e.target.value})} placeholder="your@email.com" style={inp}/></div>
-                <div><label style={lbl}>Preferred Date *</label><input type="date" value={vf.date} onChange={e=>setVf({...vf,date:e.target.value})} style={inp}/></div>
+                <div><label style={lbl}>Date *</label><input type="date" value={vf.date} onChange={e=>setVf({...vf,date:e.target.value})} style={inp}/></div>
                 <div>
                   <label style={lbl}>Preferred Time</label>
                   <select value={vf.time} onChange={e=>setVf({...vf,time:e.target.value})} style={inp}>
                     <option value="">Select time...</option>
-                    {['9:00 AM','10:00 AM','11:00 AM','12:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'].map(t=><option key={t}>{t}</option>)}
+                    {['9:00 AM','10:00 AM','11:00 AM','2:00 PM','3:00 PM','4:00 PM'].map(t=><option key={t}>{t}</option>)}
                   </select>
                 </div>
               </div>
@@ -1446,12 +1312,9 @@ function ContactPage({showToast}){
               <button onClick={submitVet}
                 style={{width:'100%',background:`linear-gradient(135deg,${G.green},#1a5c35)`,
                   color:'#fff',border:'none',padding:'15px',borderRadius:50,
-                  fontWeight:800,fontSize:'1.05rem',cursor:'pointer',boxShadow:'0 8px 24px rgba(45,122,79,.4)'}}>
+                  fontWeight:800,fontSize:'1.05rem',cursor:'pointer'}}>
                 🩺 Book Vet Appointment
               </button>
-              <p style={{textAlign:'center',color:'#a07040',fontSize:'0.82rem',marginTop:14}}>
-                ⚡ Confirmation sent via email within 30 minutes · Fee: ₨500–₨1500
-              </p>
             </div>
           </div>
         )}
@@ -1460,9 +1323,7 @@ function ContactPage({showToast}){
   );
 }
  
-// ═══════════════════════════════════════════════════════════════════════════════
-// FOOTER
-// ═══════════════════════════════════════════════════════════════════════════════
+// ─── FOOTER ──────────────────────────────────────────────────────────────────
 function Footer({setPage}){
   return(
     <footer style={{background:G.dark,color:'#a07040',padding:'48px 20px 24px'}}>
@@ -1472,18 +1333,14 @@ function Footer({setPage}){
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:'1.6rem',color:G.tan,marginBottom:12}}>
               🐾 Paw<span style={{color:G.orangeLt}}>Haven</span>
             </div>
-            <p style={{fontSize:'0.9rem',lineHeight:1.7,maxWidth:320}}>
-              Pakistan's dedicated animal rescue, adoption, and awareness platform.
-            </p>
+            <p style={{fontSize:'0.9rem',lineHeight:1.7,maxWidth:320}}>Pakistan's dedicated animal rescue, adoption, and awareness platform.</p>
           </div>
           <div>
             <div style={{color:G.tan,fontWeight:800,marginBottom:14,fontSize:'0.88rem',letterSpacing:1,textTransform:'uppercase'}}>Quick Links</div>
             {PAGES.map(p=>(
               <div key={p} style={{marginBottom:8}}>
                 <button onClick={()=>{setPage(p);window.scrollTo(0,0);}}
-                  style={{background:'none',border:'none',color:'#a07040',cursor:'pointer',fontSize:'0.88rem',padding:0,transition:'color .2s'}}
-                  onMouseEnter={e=>e.currentTarget.style.color=G.orangeLt}
-                  onMouseLeave={e=>e.currentTarget.style.color='#a07040'}>
+                  style={{background:'none',border:'none',color:'#a07040',cursor:'pointer',fontSize:'0.88rem',padding:0}}>
                   {PAGE_LABELS[p]}
                 </button>
               </div>
@@ -1498,16 +1355,14 @@ function Footer({setPage}){
           </div>
         </div>
         <div style={{borderTop:'1px solid rgba(255,255,255,.08)',paddingTop:20,textAlign:'center',fontSize:'0.85rem'}}>
-          Made with <span style={{color:G.orange}}>❤️</span> for animals everywhere · © 2025 PawHaven Animal Rescue · Pakistan
+          Made with <span style={{color:G.orange}}>❤️</span> for animals everywhere · © 2025 PawHaven · Pakistan
         </div>
       </div>
     </footer>
   );
 }
  
-// ═══════════════════════════════════════════════════════════════════════════════
-// MAIN APP
-// ═══════════════════════════════════════════════════════════════════════════════
+// ─── MAIN APP ────────────────────────────────────────────────────────────────
 export default function App(){
   const [page,setPage]=useState('home');
   const [toast,setToast]=useState({show:false,msg:'',type:'success'});
