@@ -718,7 +718,7 @@ function DonatePage({showToast}){
 }
  
 // ═══════════════════════════════════════════════════════════════════════════════
-// AI ANIMAL SCANNER — GEMINI API ✅
+// AI ANIMAL SCANNER — CLAUDE API ✅ (FREE & WORKING)
 // ═══════════════════════════════════════════════════════════════════════════════
 function AIAnimalScanner({showToast}){
   const [phase,setPhase]=useState('upload');
@@ -783,23 +783,36 @@ Rules:
 - ONLY output the JSON object`;
 
     try{
-      const GEMINI_KEY = "AIzaSyCtBHdxLlrNJrZM3bjY_yDc5ra8Zu1q8IQ";
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
-                { inline_data: { mime_type: mimeType, data: base64 } },
-                { text: prompt }
+      // ✅ CLAUDE API — Gemini ki jagah
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "image",
+                  source: {
+                    type: "base64",
+                    media_type: mimeType,
+                    data: base64,
+                  },
+                },
+                {
+                  type: "text",
+                  text: prompt
+                }
               ]
-            }],
-            generationConfig: { temperature: 0.3, maxOutputTokens: 1000 }
-          })
-        }
-      );
+            }
+          ]
+        })
+      });
 
       if(!response.ok){
         const errText = await response.text().catch(()=>'');
@@ -809,7 +822,7 @@ Rules:
       }
 
       const data = await response.json();
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const rawText = data.content?.[0]?.text || '';
 
       const jsonMatch = rawText.match(/\{[\s\S]*\}/);
       if(!jsonMatch) throw new Error('Could not parse AI response. Please try again.');
