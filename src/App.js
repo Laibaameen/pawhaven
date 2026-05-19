@@ -783,34 +783,16 @@ Rules:
 - ONLY output the JSON object`;
 
     try{
-      // ✅ CLAUDE API — Gemini ki jagah
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      // ✅ /api/analyze proxy — CORS fix!
+      const response = await fetch("/api/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [
-            {
-              role: "user",
-              content: [
-                {
-                  type: "image",
-                  source: {
-                    type: "base64",
-                    media_type: mimeType,
-                    data: base64,
-                  },
-                },
-                {
-                  type: "text",
-                  text: prompt
-                }
-              ]
-            }
-          ]
+          imageBase64: base64,
+          mimeType: mimeType,
+          prompt: prompt,
         })
       });
 
@@ -822,7 +804,7 @@ Rules:
       }
 
       const data = await response.json();
-      const rawText = data.content?.[0]?.text || '';
+      const rawText = data.result || '';
 
       const jsonMatch = rawText.match(/\{[\s\S]*\}/);
       if(!jsonMatch) throw new Error('Could not parse AI response. Please try again.');
