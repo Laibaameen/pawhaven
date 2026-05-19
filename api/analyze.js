@@ -30,7 +30,6 @@ export default async function handler(req, res) {
                   },
                 },
                 {
-                  type: 'text',
                   text: prompt,
                 },
               ],
